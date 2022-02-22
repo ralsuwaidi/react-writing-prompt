@@ -14,7 +14,18 @@ function Container(props) {
 class Body extends Component {
     constructor(props) {
         super(props);
+        this.state = {selected: 0};
+        this.selectPrompt = this.selectPrompt.bind(this);
     }
+
+    selectPrompt(index) {
+        this.setState(
+            {selected: index}
+        )
+        console.log(this.state.selected)
+      }
+
+
 
     render() {
         return (
@@ -22,7 +33,7 @@ class Body extends Component {
                 <Container >
                     <Heading title="Week" />
                     <div className='mx-auto my-6'>
-                        <Cards />
+                        <Cards onButtonClick={this.selectPrompt} selected={this.state.selected} />
                     </div>
                 </Container>
             </div>
