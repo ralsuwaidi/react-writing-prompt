@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { Component } from 'react';
+import Navbar from './writing_prompt/Navbar';
+import Body from './writing_prompt/Body';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    
+  }
+
+  onClickBtn() {
+    console.log('Button has been clicked!');
+  }
+
+  render() {
+
+    return (
+      <div>
+        <Navbar />
+        <Body />
+      </div>
+    );
+  }
 }
 
 export default App;
