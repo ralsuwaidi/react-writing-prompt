@@ -10,18 +10,35 @@ function Card(props) {
     )
 }
 
+async function GetComment(url, func) {
+    fetch(url)
+        .then(function (res) {
+            return res.json();   // Convert the data into JSON
+        })
+        .then(function (data) {
+            func(data[1].data.children[1].data.body);   // Logs the data to the console
+        })
+        .catch(function (err) {
+            console.log(err);   // Log error if any
+        });
+
+}
+
 export default function Cards(props) {
     const [error, setError] = useState(null);
+    const [url, setUrl] = useState("https://www.reddit.com/r/WritingPrompts/.json")
     const [isLoaded, setIsLoaded] = useState(false);
     const [response, setItems] = useState([]);
     const [show, setShowModal] = useState(false);
+    const [commentLink, setCommentLink] = useState('');
+    const [comment, setComment] = useState('');
 
 
     // Note: the empty deps array [] means
     // this useEffect will run once
     // similar to componentDidMount()
     useEffect(() => {
-        fetch("https://www.reddit.com/r/WritingPrompts/.json")
+        fetch(url)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -38,10 +55,15 @@ export default function Cards(props) {
             )
     }, [])
 
-    const toggleModal =(number)=>{
-        show? setShowModal(false):setShowModal(true)
+    const toggleModal = (title) => {
+        show ? setShowModal(false) : setShowModal(true)
         console.log(show)
-        props.onButtonClick(number)
+        props.onButtonClick(title)
+    }
+
+    const getComment = () => {
+
+        setComment(JSON.stringify(GetComment(commentLink, setComment)))
     }
 
 
@@ -54,17 +76,20 @@ export default function Cards(props) {
         return (
 
             <div>
-            <Modal show={show} handleClose={() => toggleModal(0)} index={props.selected}/>
-            {response.map((child, index) => (
-                <div>
-                    <Card>
-                        {child.data.title}
-                    </Card>
-                    <button onClick={(selected_index) => props.onButtonClick(index)}>Hi</button>
-                    <button onClick={() =>toggleModal(index)} >Toggle modal</button>
+                <Modal show={show} handleClose={() => toggleModal(0)} index={props.selected} text={comment} />
+                {response.map((child) => (
+                    <div>
+                        <Card>
+                            {child.data.title}
+                        </Card>
+                        <button onClick={function (event) {
+                            toggleModal(child.data.title);
+                            setCommentLink('https://www.reddit.com' + child.data.permalink + '.json')
+                            getComment()
+                        }} >Toggle modal</button>
 
-                </div>
-            ))}
+                    </div>
+                ))}
             </div>
         );
     }

@@ -14,7 +14,7 @@ function Container(props) {
 class Body extends Component {
     constructor(props) {
         super(props);
-        this.state = {selected: 0};
+        this.state = {selected: ''};
         this.selectPrompt = this.selectPrompt.bind(this);
     }
 
