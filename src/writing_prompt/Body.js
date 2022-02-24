@@ -22,7 +22,6 @@ class Body extends Component {
         this.setState(
             {selected: index}
         )
-        console.log(this.state.selected)
       }
 
 

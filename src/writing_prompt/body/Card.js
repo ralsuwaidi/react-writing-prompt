@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
+import ReactMarkdown from 'react-markdown'
 
 
 function Card(props) {
@@ -10,7 +11,7 @@ function Card(props) {
     )
 }
 
-async function GetComment(url, func) {
+function GetComment(url, func) {
     fetch(url)
         .then(function (res) {
             return res.json();   // Convert the data into JSON
@@ -30,7 +31,6 @@ export default function Cards(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [response, setItems] = useState([]);
     const [show, setShowModal] = useState(false);
-    const [commentLink, setCommentLink] = useState('');
     const [comment, setComment] = useState('');
 
 
@@ -57,13 +57,11 @@ export default function Cards(props) {
 
     const toggleModal = (title) => {
         show ? setShowModal(false) : setShowModal(true)
-        console.log(show)
         props.onButtonClick(title)
     }
 
-    const getComment = () => {
-
-        setComment(JSON.stringify(GetComment(commentLink, setComment)))
+    const getComment = (url) => {
+        setComment(GetComment(url, setComment))
     }
 
 
@@ -76,16 +74,18 @@ export default function Cards(props) {
         return (
 
             <div>
-                <Modal show={show} handleClose={() => toggleModal(0)} index={props.selected} text={comment} />
+                <Modal show={show} handleClose={() => toggleModal(0)} index={props.selected} >
+                    <ReactMarkdown>{comment}</ReactMarkdown>
+                </Modal>
+                
                 {response.map((child) => (
                     <div>
                         <Card>
                             {child.data.title}
                         </Card>
-                        <button onClick={function (event) {
+                        <button onClick={function () {
                             toggleModal(child.data.title);
-                            setCommentLink('https://www.reddit.com' + child.data.permalink + '.json')
-                            getComment()
+                            getComment('https://www.reddit.com' + child.data.permalink + '.json')
                         }} >Toggle modal</button>
 
                     </div>

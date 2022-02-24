@@ -21,9 +21,9 @@ export default function Modal(props) {
                         </div>
 
                         <div className="p-6 space-y-6">
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                {props.text}
-                            </p>
+                            <div className="prose text-base leading-relaxed prose text-gray-500 dark:text-gray-400">
+                                {props.children}
+                            </div>
                         </div>
                     </div>
                 </div>
