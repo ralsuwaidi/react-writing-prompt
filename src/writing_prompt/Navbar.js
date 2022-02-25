@@ -52,9 +52,7 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                <NavComponent 
-                title="Writing Prompt" 
-                />
+                <NavComponent title="Writing Prompt" />
             </div>
         );
     }
