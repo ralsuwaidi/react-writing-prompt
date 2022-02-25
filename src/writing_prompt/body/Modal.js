@@ -5,8 +5,7 @@ export default function Modal(props) {
 
     return (
         <div className={showHideClassName}>
-
-            <div className="overflow-y-scroll overscroll-contain fixed h-screen dark:bg-gray-700 bg-white right-0 left-0 top-4 z-50 justify-center items-center md:inset-0">
+                <div className="overflow-y-scroll overscroll-contain w-screen fixed h-screen dark:bg-gray-700 bg-white right-0 left-0 top-4 z-50 justify-center items-center md:inset-0">
                     <div className="relative max-w-3xl mx-auto" >
 
                         <div className="flex justify-between items-start p-5 rounded-t ">
@@ -19,11 +18,11 @@ export default function Modal(props) {
                         </div>
 
                         <div className="p-6 space-y-6">
-                            <div className="prose text-base leading-relaxed prose text-gray-500 dark:text-gray-400">
+                            <div className="prose text-base leading-relaxed  text-gray-500 dark:text-gray-400">
                                 {props.children}
                             </div>
                         </div>
-                </div>
+                    </div>
             </div>
         </div>
     )
