@@ -24,14 +24,12 @@ class Body extends Component {
         )
       }
 
-
-
     render() {
         return (
             <div>
                 <Container >
                     <Heading />
-                    <div className='mx-auto my-6'>
+                    <div className='mx-auto my-6 '>
                         <Cards onButtonClick={this.selectPrompt} selected={this.state.selected} />
                     </div>
                 </Container>

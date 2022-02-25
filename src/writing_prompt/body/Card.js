@@ -10,7 +10,7 @@ function Card(props) {
         <a onClick={function () {
             props.toggle(props.child.data.title);
             props.comment('https://www.reddit.com' + props.child.data.permalink + '.json')
-        }} href="#" className="block mx-auto p-6 bg-white m-6 rounded border border-gray-200 hover:bg-gray-100 ">
+        }} href="#" className="block mx-auto p-6 bg-white m-6 border border-gray-200 hover:bg-gray-100 ">
             <p className="font-normal text-gray-900 "> {props.children} </p>
         </a>
     )
@@ -77,22 +77,20 @@ export default function Cards(props) {
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-        return <div>Loading...</div>;
+        return (<div className="mx-auto w-100">Loading...</div>);
     } else {
 
         return (
 
-            <div>
+            <div className="grid mx-4 lg:grid-cols-4 lg:gap-4 md:grid-cols-2 md:gap-2 grid-cols gap items-stretch">
                 <Modal show={show} handleClose={() => toggleModal(0)} index={props.selected} >
                     <ReactMarkdown>{comment}</ReactMarkdown>
                 </Modal>
 
                 {posts.map((child) => (
-                    <div>
                         <Card toggle={toggleModal} comment={getComment} child={child}>
                             {child.data.title}
                         </Card>
-                    </div>
                 ))}
             </div>
         );
