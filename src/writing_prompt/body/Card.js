@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
 import ReactMarkdown from 'react-markdown'
+import orderAtom from "../../atoms/ordering";
+import { useRecoilState } from "recoil";
 
 
 function Card(props) {
@@ -14,7 +16,9 @@ function Card(props) {
     )
 }
 
+// fetch comment
 function GetComment(url, func) {
+    console.log('here')
     fetch(url)
         .then(function (res) {
             return res.json();   // Convert the data into JSON
@@ -30,23 +34,24 @@ function GetComment(url, func) {
 
 export default function Cards(props) {
     const [error, setError] = useState(null);
-    const [url, setUrl] = useState("https://www.reddit.com/r/WritingPrompts/.json")
     const [isLoaded, setIsLoaded] = useState(false);
-    const [response, setItems] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [show, setShowModal] = useState(false);
     const [comment, setComment] = useState('');
+    const [order, setOrder] = useRecoilState(orderAtom)
 
 
     // Note: the empty deps array [] means
     // this useEffect will run once
     // similar to componentDidMount()
     useEffect(() => {
-        fetch(url)
+        setIsLoaded(false);
+        fetch('https://www.reddit.com/r/WritingPrompts/top/.json?t=' + order)
             .then(res => res.json())
             .then(
                 (result) => {
                     setIsLoaded(true);
-                    setItems(result.data.children);
+                    setPosts(result.data.children);
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -56,8 +61,9 @@ export default function Cards(props) {
                     setError(error);
                 }
             )
-    }, [])
+    }, [order])
 
+    // toggle modal
     const toggleModal = (title) => {
         show ? setShowModal(false) : setShowModal(true)
         props.onButtonClick(title)
@@ -80,8 +86,8 @@ export default function Cards(props) {
                 <Modal show={show} handleClose={() => toggleModal(0)} index={props.selected} >
                     <ReactMarkdown>{comment}</ReactMarkdown>
                 </Modal>
-                
-                {response.map((child) => (
+
+                {posts.map((child) => (
                     <div>
                         <Card toggle={toggleModal} comment={getComment} child={child}>
                             {child.data.title}

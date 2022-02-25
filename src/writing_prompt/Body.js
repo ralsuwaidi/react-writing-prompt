@@ -30,7 +30,7 @@ class Body extends Component {
         return (
             <div>
                 <Container >
-                    <Heading title="Week" />
+                    <Heading />
                     <div className='mx-auto my-6'>
                         <Cards onButtonClick={this.selectPrompt} selected={this.state.selected} />
                     </div>
