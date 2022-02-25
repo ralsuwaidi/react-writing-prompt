@@ -5,7 +5,10 @@ import ReactMarkdown from 'react-markdown'
 
 function Card(props) {
     return (
-        <a href="#" className="block mx-auto p-6 bg-white m-6 rounded border border-gray-200 hover:bg-gray-100 ">
+        <a onClick={function () {
+            props.toggle(props.child.data.title);
+            props.comment('https://www.reddit.com' + props.child.data.permalink + '.json')
+        }} href="#" className="block mx-auto p-6 bg-white m-6 rounded border border-gray-200 hover:bg-gray-100 ">
             <p className="font-normal text-gray-900 "> {props.children} </p>
         </a>
     )
@@ -80,14 +83,9 @@ export default function Cards(props) {
                 
                 {response.map((child) => (
                     <div>
-                        <Card>
+                        <Card toggle={toggleModal} comment={getComment} child={child}>
                             {child.data.title}
                         </Card>
-                        <button onClick={function () {
-                            toggleModal(child.data.title);
-                            getComment('https://www.reddit.com' + child.data.permalink + '.json')
-                        }} >Toggle modal</button>
-
                     </div>
                 ))}
             </div>
