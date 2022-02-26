@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Heading from './body/Heading';
-import Cards from './body/Card';
+import Cards from './body/Cards';
 
 
 function Container(props) {
